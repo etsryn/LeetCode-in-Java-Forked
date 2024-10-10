@@ -21,30 +21,35 @@ import com_github_leetcode.TreeNode;
  *     }
  * }
  */
-public class Solution {
-    private boolean isSubtreeFound(TreeNode root, TreeNode subRoot) {
-        if (root == null && subRoot == null) {
+class Solution {
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        // Base case: If root is null, subRoot can't be a subtree
+        if (root == null) {
+            return false;
+        }
+
+        // Check if trees rooted at root and subRoot are identical
+        if (isSameTree(root, subRoot)) {
             return true;
         }
-        if (root == null || subRoot == null) {
-            return false;
-        }
-        if (root.val == subRoot.val) {
-            return isSubtreeFound(root.left, subRoot.left) && isSubtree(root.right, subRoot.right);
-        } else {
-            return false;
-        }
+
+        // Otherwise, recursively check the left and right subtrees
+        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
     }
 
-    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
-        if (root == null && subRoot == null) {
+    // Helper function to check if two trees are identical
+    private boolean isSameTree(TreeNode s, TreeNode t) {
+        // If both nodes are null, trees are identical
+        if (s == null && t == null) {
             return true;
         }
-        if (root == null || subRoot == null) {
+
+        // If one of the nodes is null or the values are not equal, trees are not identical
+        if (s == null || t == null || s.val != t.val) {
             return false;
         }
-        return isSubtreeFound(root, subRoot)
-                || isSubtree(root.left, subRoot)
-                || isSubtree(root.right, subRoot);
+
+        // Recursively check the left and right subtrees
+        return isSameTree(s.left, t.left) && isSameTree(s.right, t.right);
     }
 }
