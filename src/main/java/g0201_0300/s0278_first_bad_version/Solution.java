@@ -6,22 +6,24 @@ package g0201_0300.s0278_first_bad_version;
 /* The isBadVersion API is defined in the parent class VersionControl.
 boolean isBadVersion(int version); */
 
-public class Solution extends VersionControl {
-    public Solution(int bad) {
-        super(bad);
-    }
+/* The isBadVersion API is defined in the parent class VersionControl.
+      boolean isBadVersion(int version); */
 
+public class Solution extends VersionControl {
     public int firstBadVersion(int n) {
-        int start = 1;
-        int end = n;
-        while (start < end) {
-            int mid = start + (end - start) / 2;
+        int left = 1, right = n;
+        
+        while (left < right) {
+            int mid = left + (right - left) / 2; // To prevent overflow
+            
             if (isBadVersion(mid)) {
-                end = mid;
+                right = mid; // Move left
             } else {
-                start = mid + 1;
+                left = mid + 1; // Move right
             }
         }
-        return start;
+        
+        // left == right, at this point it's the first bad version
+        return left; 
     }
 }
